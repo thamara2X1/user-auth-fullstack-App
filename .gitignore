@@ -1,0 +1,77 @@
+
+# ========================================
+# BACKEND (Node.js)
+# ========================================
+
+# Dependencies
+mybackend1/node_modules/
+mybackend1/npm-debug.log*
+mybackend1/yarn-debug.log*
+mybackend1/yarn-error.log*
+
+# Environment variables - CRITICAL!
+mybackend1/.env
+mybackend1/.env.local
+mybackend1/.env.production
+
+# Logs
+mybackend1/logs/
+mybackend1/*.log
+
+# Build
+mybackend1/dist/
+mybackend1/build/
+
+# ========================================
+# MOBILE (Flutter)
+# ========================================
+
+# Flutter/Dart
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/.pub-cache/
+mobile/.pub/
+mobile/build/
+
+# iOS
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Flutter/Flutter.podspec
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+mobile/ios/Flutter/app.flx
+mobile/ios/Flutter/App.framework
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/ServiceDefinitions.json
+mobile/ios/Runner/GeneratedPluginRegistrant.*
+
+# Android
+mobile/android/.gradle
+mobile/android/captures/
+mobile/android/gradlew
+mobile/android/gradlew.bat
+mobile/android/local.properties
+mobile/android/**/GeneratedPluginRegistrant.java
+mobile/android/key.properties
+mobile/android/*.jks
+mobile/android/*.keystore
+
+# ========================================
+# GENERAL
+# ========================================
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Misc
+*.log
+*.swp
+.metadata
