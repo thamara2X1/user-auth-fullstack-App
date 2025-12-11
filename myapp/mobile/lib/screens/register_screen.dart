@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/services/api_service.dart';
+import 'package:myapp/screens/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -35,8 +36,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (result['success']) {
       _showMessage("✅ Account created successfully!", Colors.green);
-      // Navigate to login screen or home
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+      // Wait 2 seconds then navigate to login
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => LoginScreen()),
+      );
     } else {
       _showMessage("❌ ${result['message']}", Colors.red);
     }
@@ -180,8 +185,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Text("Already have an account?"),
                     TextButton(
                       onPressed: () {
-                        // Navigate to login screen
-                        // Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => LoginScreen()),
+                        );
                       },
                       child: Text(
                         "Login",
