@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/register_screen.dart';
 import 'package:myapp/screens/home_screen.dart';
+import 'package:myapp/screens/forgot_password_screen.dart';
 import 'package:myapp/services/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -150,13 +151,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 
-                // Forgot Password (optional)
+                // Forgot Password
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      // TODO: Implement forgot password
-                      _showMessage("Feature coming soon!", Colors.blue);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ForgotPasswordScreen(),
+                        ),
+                      );
                     },
                     child: Text(
                       "Forgot Password?",
