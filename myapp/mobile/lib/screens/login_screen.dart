@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/screens/register_screen.dart';
 import 'package:myapp/screens/home_screen.dart';
 import 'package:myapp/screens/forgot_password_screen.dart';
-import 'package:myapp/services/api_service.dart';
+import 'package:myapp/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,8 +16,24 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   bool _obscurePassword = true;
 
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  // Check if user is already logged in
+  Future<void> _checkLoginStatus() async {
+    final isLoggedIn = await AuthService.isLoggedIn();
+    if (isLoggedIn && mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
+    }
+  }
+
   Future<void> loginUser() async {
-    // Validate form
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -26,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    final result = await ApiService.loginUser(
+    final result = await AuthService.login(
       email: emailController.text.trim(),
       password: passwordController.text,
     );
@@ -38,15 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (result['success']) {
       _showMessage("✅ Login successful!", Colors.green);
       
-      // Navigate to home screen
+      // Navigate to home screen WITHOUT passing tokens
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => HomeScreen(
-            userId: result['data']['user_id'],
-            token: result['data']['token'],
-          ),
-        ),
+        MaterialPageRoute(builder: (_) => HomeScreen()),
       );
     } else {
       _showMessage("❌ ${result['message']}", Colors.red);
