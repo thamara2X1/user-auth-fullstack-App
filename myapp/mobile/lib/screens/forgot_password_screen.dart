@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/services/api_service.dart';
+import 'package:myapp/services/auth_service.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       isLoading = true;
     });
 
-    final result = await ApiService.forgotPassword(
+    final result = await AuthService.forgotPassword(
       email: emailController.text.trim(),
     );
 
