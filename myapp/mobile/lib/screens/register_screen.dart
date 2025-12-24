@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/services/api_service.dart';
 import 'package:myapp/screens/login_screen.dart';
+import 'package:myapp/services/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -13,9 +13,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool _obscurePassword = true;
 
   Future<void> registerUser() async {
-    // Validate form
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -24,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isLoading = true;
     });
 
-    final result = await ApiService.registerUser(
+    final result = await AuthService.register(
       name: nameController.text.trim(),
       email: emailController.text.trim(),
       password: passwordController.text,
@@ -35,9 +35,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     if (result['success']) {
-      _showMessage("✅ Account created successfully!", Colors.green);
-      // Wait 2 seconds then navigate to login
-      await Future.delayed(Duration(seconds: 2));
+      _showMessage("✅ ${result['message']}", Colors.green);
+      
+      // Navigate to login after successful registration
+      await Future.delayed(Duration(seconds: 1));
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => LoginScreen()),
@@ -61,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Account"),
+        title: Text("Register"),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
@@ -74,8 +75,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 40),
+                
                 Text(
-                  "Welcome!",
+                  "Create Account",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -83,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  "Create your account to get started",
+                  "Sign up to get started",
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey[600],
@@ -136,10 +138,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // Password Field
                 TextFormField(
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     labelText: "Password",
                     prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -171,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: isLoading
                         ? CircularProgressIndicator(color: Colors.white)
                         : Text(
-                            "Create Account",
+                            "Register",
                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                   ),
