@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";   
+  static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
   // Secure storage for tokens
   static const _storage = FlutterSecureStorage();
   static const String _tokenKey = 'auth_token';
@@ -12,7 +12,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
   static const String _userEmailKey = 'user_email';
 
   // ============ TOKEN MANAGEMENT ============
-  
+
   // Save token securely
   static Future<void> _saveToken(String token) async {
     await _storage.write(key: _tokenKey, value: token);
@@ -75,11 +75,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
       final response = await http.post(
         Uri.parse('$baseUrl/register'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'name': name,
-          'email': email,
-          'password': password,
-        }),
+        body: json.encode({'name': name, 'email': email, 'password': password}),
       );
 
       final data = json.decode(response.body);
@@ -96,10 +92,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
         };
       }
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'Network error: ${e.toString()}',
-      };
+      return {'success': false, 'message': 'Network error: ${e.toString()}'};
     }
   }
 
@@ -112,10 +105,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
       final response = await http.post(
         Uri.parse('$baseUrl/login'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'email': email,
-          'password': password,
-        }),
+        body: json.encode({'email': email, 'password': password}),
       );
 
       final data = json.decode(response.body);
@@ -134,16 +124,10 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
           'message': data['message'] ?? 'Login successful',
         };
       } else {
-        return {
-          'success': false,
-          'message': data['message'] ?? 'Login failed',
-        };
+        return {'success': false, 'message': data['message'] ?? 'Login failed'};
       }
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'Network error: ${e.toString()}',
-      };
+      return {'success': false, 'message': 'Network error: ${e.toString()}'};
     }
   }
 
@@ -172,10 +156,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
         };
       }
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'Network error: ${e.toString()}',
-      };
+      return {'success': false, 'message': 'Network error: ${e.toString()}'};
     }
   }
 
@@ -188,10 +169,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
       final response = await http.post(
         Uri.parse('$baseUrl/reset-password'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'token': token,
-          'password': password,
-        }),
+        body: json.encode({'token': token, 'password': password}),
       );
 
       final data = json.decode(response.body);
@@ -208,10 +186,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
         };
       }
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'Network error: ${e.toString()}',
-      };
+      return {'success': false, 'message': 'Network error: ${e.toString()}'};
     }
   }
 
@@ -222,7 +197,7 @@ static const String baseUrl = "http://10.0.2.2:3000/api/v1/auth";
     Map<String, dynamic>? body,
   }) async {
     final token = await getToken();
-    
+
     if (token == null) {
       throw Exception('No authentication token found');
     }
